@@ -22,6 +22,7 @@ public class CompanyContact {
     private String email;
     private String phoneNumber;
     private String position;
+    private String linkedinUrl;
 
     @Relationship(type = "WORKS_FOR")
     private Partner employer;

@@ -55,4 +55,10 @@ export const interactionService = {
     getByPartner: (partnerId) => api.get(`/interactions/partner/${partnerId}`),
 };
 
+export const contactService = {
+    getByPartner: (partnerId) => api.get(`/contacts/partner/${partnerId}`),
+    create: (contact) => api.post('/contacts', contact),
+    delete: (id) => api.delete(`/contacts/${id}`),
+};
+
 export default api;

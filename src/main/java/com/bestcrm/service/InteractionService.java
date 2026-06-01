@@ -65,6 +65,6 @@ public class InteractionService {
     }
 
     public List<Interaction> getInteractionsByPartner(Long partnerId) {
-        return interactionRepository.findAllInteractionsForPartner(partnerId);
+        return interactionRepository.findByPartnerIdOrderByDateDesc(partnerId);
     }
 }

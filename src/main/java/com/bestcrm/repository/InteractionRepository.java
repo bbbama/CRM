@@ -14,7 +14,6 @@ public interface InteractionRepository extends Neo4jRepository<Interaction, Long
     // Wyszukiwanie wszystkich interakcji powiązanych z konkretnym wydarzeniem
     List<Interaction> findByEventId(Long eventId);
 
-    @Query("MATCH (i:Interaction)-[:WITH_PARTNER]->(p:Partner) WHERE p.id = $partnerId " +
-           "RETURN i ORDER BY i.date DESC")
-    List<Interaction> findAllInteractionsForPartner(Long partnerId);
+    // Automatycznie wygenerowana metoda, która pobierze interakcje wraz z relacjami
+    List<Interaction> findByPartnerIdOrderByDateDesc(Long partnerId);
 }
