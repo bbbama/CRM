@@ -4,6 +4,19 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Build outputs
+frontend/dist/
+
+# Environment files
+.env
+.env.*
+
+# Log files
+*.log
+
+# macOS
+.DS_Store
+
 # Planning documents and images
 *.png
 co_i_jak.md

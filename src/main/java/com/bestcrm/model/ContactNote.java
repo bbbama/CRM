@@ -8,23 +8,23 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import java.time.LocalDateTime;
+
 @Node
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyContact {
+public class ContactNote {
     @Id
     @GeneratedValue
     private Long id;
-    
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-    private String position;
-    private String linkedinUrl;
-    private String note;
 
-    @Relationship(type = "WORKS_FOR")
-    private Partner employer;
+    private String content;
+    private LocalDateTime createdAt;
+
+    @Relationship(type = "ABOUT_CONTACT")
+    private CompanyContact contact;
+
+    @Relationship(type = "ADDED_BY")
+    private Member author;
 }

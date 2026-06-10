@@ -38,7 +38,7 @@ public class CompanyContactController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
     public ResponseEntity<CompanyContact> update(@PathVariable Long id, @RequestBody CompanyContact contact) {
         return contactService.getContactById(id)
                 .map(existing -> {
@@ -47,6 +47,7 @@ public class CompanyContactController {
                     existing.setEmail(contact.getEmail());
                     existing.setPhoneNumber(contact.getPhoneNumber());
                     existing.setPosition(contact.getPosition());
+                    existing.setNote(contact.getNote());
                     if (contact.getEmployer() != null && contact.getEmployer().getId() != null) {
                         existing.setEmployer(contact.getEmployer());
                     }

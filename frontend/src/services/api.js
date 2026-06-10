@@ -34,6 +34,8 @@ export const partnerService = {
     getAll: () => api.get('/partners'),
     getById: (id) => api.get(`/partners/${id}`),
     create: (partner) => api.post('/partners', partner),
+    update: (id, partner) => api.put(`/partners/${id}`, partner),
+    delete: (id) => api.delete(`/partners/${id}`),
 };
 
 export const memberService = {
@@ -58,7 +60,14 @@ export const interactionService = {
 export const contactService = {
     getByPartner: (partnerId) => api.get(`/contacts/partner/${partnerId}`),
     create: (contact) => api.post('/contacts', contact),
+    update: (id, contact) => api.put(`/contacts/${id}`, contact),
     delete: (id) => api.delete(`/contacts/${id}`),
+};
+
+export const contactNoteService = {
+    getByContact: (contactId) => api.get(`/contacts/${contactId}/notes`),
+    create: (contactId, content) => api.post(`/contacts/${contactId}/notes`, { content }),
+    delete: (contactId, noteId) => api.delete(`/contacts/${contactId}/notes/${noteId}`),
 };
 
 export default api;
