@@ -3,6 +3,9 @@ import { PageHeader, PageLayout, SearchInput, EmptyState, CardGrid, Button } fro
 import { PartnerCard, PartnerQuickAdd } from '../components';
 
 const Partners = () => {
+  const role = localStorage.getItem('role');
+  const canModify = role === 'ADMIN' || role === 'MEMBER';
+
   const {
     partners, searchTerm, setSearchTerm,
     newName, setNewName, newIndustry, setNewIndustry,
@@ -18,9 +21,11 @@ const Partners = () => {
         action={
           <div className="flex gap-3">
             <SearchInput value={searchTerm} onChange={setSearchTerm} placeholder="Szukaj firmy lub branży..." />
-            <Button icon="add" onClick={() => setShowQuickAdd(!showQuickAdd)}>
-              {showQuickAdd ? 'Anuluj' : 'Dodaj firmę'}
-            </Button>
+            {canModify && (
+              <Button icon="add" onClick={() => setShowQuickAdd(!showQuickAdd)}>
+                {showQuickAdd ? 'Anuluj' : 'Dodaj firmę'}
+              </Button>
+            )}
           </div>
         }
       />

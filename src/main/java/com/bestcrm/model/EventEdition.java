@@ -6,22 +6,20 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Node
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactNote {
+public class EventEdition {
     @Id
     @GeneratedValue
     private Long id;
-
-    private String content;
-    private LocalDateTime createdAt;
-
-    @Relationship(type = "ADDED_BY")
-    private Member author;
+    private Integer edition;
+    private LocalDate startingDate;
+    private LocalDate endingDate;
+    private String localisation;
+    private String description;
 }

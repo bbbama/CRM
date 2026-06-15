@@ -14,6 +14,7 @@ const Login = ({ setAuth }) => {
     try {
       const res = await authService.login(email, password);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('role', res.data.role);
       setAuth(true);
     } catch (err) {
       if (err.code === 'ERR_NETWORK') {

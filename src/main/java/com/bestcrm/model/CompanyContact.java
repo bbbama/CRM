@@ -8,6 +8,9 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Node
 @Data
 @NoArgsConstructor
@@ -23,7 +26,9 @@ public class CompanyContact {
     private String phoneNumber;
     private String position;
     private String linkedinUrl;
-    private String note;
+
+    @Relationship(type = "HAS_NOTE")
+    private List<ContactNote> notes = new ArrayList<>();
 
     @Relationship(type = "WORKS_FOR")
     private Partner employer;

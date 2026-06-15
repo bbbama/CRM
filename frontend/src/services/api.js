@@ -52,6 +52,14 @@ export const eventService = {
     delete: (id) => api.delete(`/events/${id}`),
 };
 
+export const editionService = {
+    getByEvent: (eventId) => api.get(`/events/${eventId}/editions`),
+    getById: (eventId, id) => api.get(`/events/${eventId}/editions/${id}`),
+    create: (eventId, edition) => api.post(`/events/${eventId}/editions`, edition),
+    update: (eventId, id, edition) => api.put(`/events/${eventId}/editions/${id}`, edition),
+    delete: (eventId, id) => api.delete(`/events/${eventId}/editions/${id}`),
+};
+
 export const interactionService = {
     create: (interaction) => api.post('/interactions', interaction),
     getByPartner: (partnerId) => api.get(`/interactions/partner/${partnerId}`),

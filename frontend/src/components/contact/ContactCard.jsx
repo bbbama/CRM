@@ -20,6 +20,8 @@ const ContactCard = ({
   onHideNoteInput,
   onAddNote,
   onDeleteNote,
+  isAdmin = false,
+  canModify = false,
 }) => {
   if (!contact) return null;
 
@@ -64,7 +66,9 @@ const ContactCard = ({
           </div>
           <div className="flex gap-1 shrink-0">
             <IconButton icon="edit" onClick={() => onStartEdit(contact)} title="Edytuj" />
-            <IconButton icon="delete" onClick={() => onDelete(contact.id, `${contact.firstName} ${contact.lastName}`)} title="Usuń" />
+            {isAdmin && (
+              <IconButton icon="delete" onClick={() => onDelete(contact.id, `${contact.firstName} ${contact.lastName}`)} title="Usuń" />
+            )}
           </div>
         </div>
         {contact.email && (
@@ -84,6 +88,8 @@ const ContactCard = ({
           showInput={showNoteInput}
           onShowInput={onShowNoteInput}
           onHideInput={onHideNoteInput}
+          isAdmin={isAdmin}
+          canModify={canModify}
         />
       </div>
     </div>

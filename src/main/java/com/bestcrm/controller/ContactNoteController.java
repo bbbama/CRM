@@ -41,7 +41,7 @@ public class ContactNoteController {
     @DeleteMapping("/{noteId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteNote(@PathVariable Long contactId, @PathVariable Long noteId) {
-        if (contactNoteService.deleteNote(noteId)) {
+        if (contactNoteService.deleteNote(contactId, noteId)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

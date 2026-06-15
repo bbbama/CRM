@@ -1,9 +1,15 @@
+import { Navigate } from 'react-router-dom';
 import { useUsers } from '../hooks';
 import { PageHeader, PageLayout, EmptyState, DataCard, Button } from '../components/ui';
 import { MemberListItem, AddMemberForm } from '../components';
 
 const Users = () => {
+  const role = localStorage.getItem('role');
   const { members, showForm, setShowForm, form, setForm, addMember, deleteMember } = useUsers();
+
+  if (role !== 'ADMIN') {
+    return <Navigate to="/partners" replace />;
+  }
 
   return (
     <PageLayout maxWidth="5xl">

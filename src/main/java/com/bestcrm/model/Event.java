@@ -8,7 +8,7 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Node
@@ -20,11 +20,9 @@ public class Event {
     @GeneratedValue
     private Long id;
     private String name;
-    private Integer edition;
-    private LocalDate startingDate;
-    private LocalDate endingDate;
-    private String localisation;
-    private String description;
+
+    @Relationship(type = "HAS_EDITION")
+    private List<EventEdition> editions = new ArrayList<>();
 
     @Relationship(type = "PARTNER_OF", direction = Relationship.Direction.INCOMING)
     private List<PartnerOf> partnerRelationships;

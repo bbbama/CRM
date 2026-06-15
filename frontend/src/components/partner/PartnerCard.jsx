@@ -4,6 +4,7 @@ import { StatusBadge, IconButton } from '../ui';
 
 const PartnerCard = ({ partner, onDelete }) => {
   if (!partner) return null;
+  const isAdmin = localStorage.getItem('role') === 'ADMIN';
 
   return (
     <div className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-gray-200 transition-all duration-200 p-5 relative">
@@ -25,12 +26,14 @@ const PartnerCard = ({ partner, onDelete }) => {
           <span className="text-indigo-500 group-hover:translate-x-0.5 transition-transform">→</span>
         </div>
       </Link>
-      <IconButton
-        icon="delete"
-        onClick={(e) => { e.preventDefault(); onDelete(partner.id, partner.name); }}
-        className="absolute top-3 right-3 bg-white/80 opacity-0 group-hover:opacity-100"
-        title="Usuń firmę"
-      />
+      {isAdmin && (
+        <IconButton
+          icon="delete"
+          onClick={(e) => { e.preventDefault(); onDelete(partner.id, partner.name); }}
+          className="absolute top-3 right-3 bg-white/80 opacity-0 group-hover:opacity-100"
+          title="Usuń firmę"
+        />
+      )}
     </div>
   );
 };

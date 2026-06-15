@@ -43,11 +43,6 @@ public class EventController {
         return eventService.getEventById(id)
                 .map(existing -> {
                     existing.setName(event.getName());
-                    existing.setEdition(event.getEdition());
-                    existing.setStartingDate(event.getStartingDate());
-                    existing.setEndingDate(event.getEndingDate());
-                    existing.setLocalisation(event.getLocalisation());
-                    existing.setDescription(event.getDescription());
                     return ResponseEntity.ok(eventService.saveEvent(existing));
                 })
                 .orElse(ResponseEntity.notFound().build());

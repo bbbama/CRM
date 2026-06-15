@@ -11,6 +11,9 @@ const STATUS_OPTIONS = [
 
 const PartnerDetails = () => {
   const { id } = useParams();
+  const role = localStorage.getItem('role');
+  const isAdmin = role === 'ADMIN';
+  const canModify = role === 'ADMIN' || role === 'MEMBER';
   const {
     partner, interactions, contacts, events,
     form, setForm,
@@ -41,15 +44,21 @@ const PartnerDetails = () => {
           </div>
           <div className="flex items-center gap-3 card px-4 py-2.5">
             <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Status:</span>
-            <select
-              className="text-sm font-semibold bg-transparent border-0 outline-none cursor-pointer text-gray-700 focus:ring-0 p-0"
-              value={partner.status}
-              onChange={(e) => updateStatus(e.target.value)}
-            >
-              {STATUS_OPTIONS.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
+            {isAdmin ? (
+              <select
+                className="text-sm font-semibold bg-transparent border-0 outline-none cursor-pointer text-gray-700 focus:ring-0 p-0"
+                value={partner.status}
+                onChange={(e) => updateStatus(e.target.value)}
+              >
+                {STATUS_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            ) : (
+              <span className="text-sm font-semibold text-gray-700">
+                {STATUS_OPTIONS.find(o => o.value === partner.status)?.label || partner.status}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -63,10 +72,12 @@ const PartnerDetails = () => {
           <DataCard padding="p-6">
             <div className="flex items-center justify-between mb-5">
               <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Osoby kontaktowe</h2>
-              <button onClick={() => setShowContactForm(!showContactForm)}
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
-                {showContactForm ? 'Anuluj' : '+ Dodaj'}
-              </button>
+              {canModify && (
+                <button onClick={() => setShowContactForm(!showContactForm)}
+                  className="text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors">
+                  {showContactForm ? 'Anuluj' : '+ Dodaj'}
+                </button>
+              )}
             </div>
 
             {showContactForm && (
@@ -97,6 +108,8 @@ const PartnerDetails = () => {
                   onHideNoteInput={() => { setExpandedNoteContact(null); setNoteInputs(p => ({ ...p, [c.id]: '' })); }}
                   onAddNote={addNote}
                   onDeleteNote={(noteId) => deleteNote(c.id, noteId)}
+                  isAdmin={isAdmin}
+                  canModify={canModify}
                 />
               ))}
               {contacts.length === 0 && (
@@ -105,7 +118,7 @@ const PartnerDetails = () => {
             </div>
           </DataCard>
 
-          <InteractionForm form={form} onFormChange={setForm} events={events} onSubmit={addInteraction} />
+          {canModify && <InteractionForm form={form} onFormChange={setForm} events={events} onSubmit={addInteraction} />}
         </div>
       </div>
     </PageLayout>

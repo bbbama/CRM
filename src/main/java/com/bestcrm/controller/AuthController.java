@@ -35,8 +35,11 @@ public class AuthController {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
-        final String jwt = jwtService.generateToken(userDetails);
-        return ResponseEntity.ok(AuthResponse.builder().token(jwt).build());
+        final Member member = (Member) userDetailsService.loadUserByUsername(request.getEmail());
+        final String jwt = jwtService.generateToken(member);
+        return ResponseEntity.ok(AuthResponse.builder()
+                .token(jwt)
+                .role(member.getRole().name())
+                .build());
     }
 }

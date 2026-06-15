@@ -8,6 +8,7 @@ import Partners from './pages/Partners';
 import PartnerDetails from './pages/PartnerDetails';
 import Users from './pages/Users';
 import Events from './pages/Events';
+import EventDetails from './pages/EventDetails';
 
 import './index.css';
 
@@ -18,13 +19,14 @@ function App() {
   // Funkcja wylogowania - usuwamy token i zmieniamy stan
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     setIsAuth(false);
   };
 
   return (
     <Router>
       {/* Pokaż Navbar tylko jeśli użytkownik jest zalogowany */}
-      {isAuth && <Navbar onLogout={logout} />}
+      {isAuth && <Navbar onLogout={logout} role={localStorage.getItem('role')} />}
       
       <div className="min-h-screen bg-gray-50">
         <Routes>
@@ -50,6 +52,10 @@ function App() {
           <Route 
             path="/events" 
             element={isAuth ? <Events /> : <Navigate to="/login" />} 
+          />
+          <Route 
+            path="/events/:id" 
+            element={isAuth ? <EventDetails /> : <Navigate to="/login" />} 
           />
 
           {/* Domyślne przekierowanie */}

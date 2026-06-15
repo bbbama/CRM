@@ -8,6 +8,8 @@ export {
 export {
   EventCard,
   AddEventForm,
+  EditionCard,
+  AddEditionForm,
 } from './event';
 
 export {

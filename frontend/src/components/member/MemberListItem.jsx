@@ -3,6 +3,7 @@ import { Avatar, StatusBadge, IconButton } from '../ui';
 
 const MemberListItem = ({ member, onDelete }) => {
   if (!member) return null;
+  const isAdmin = localStorage.getItem('role') === 'ADMIN';
 
   return (
     <div className="flex items-center justify-between p-4 sm:p-5 hover:bg-gray-50/50 transition-colors">
@@ -19,7 +20,7 @@ const MemberListItem = ({ member, onDelete }) => {
       </div>
       <div className="flex items-center gap-4 shrink-0">
         <StatusBadge status={member.role} />
-        <IconButton icon="delete" onClick={() => onDelete(member.id)} title="Usuń użytkownika" />
+        {isAdmin && <IconButton icon="delete" onClick={() => onDelete(member.id)} title="Usuń użytkownika" />}
       </div>
     </div>
   );
