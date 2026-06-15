@@ -9,6 +9,7 @@ import PartnerDetails from './pages/PartnerDetails';
 import Users from './pages/Users';
 import Events from './pages/Events';
 import EventDetails from './pages/EventDetails';
+import EditionDetails from './pages/EditionDetails';
 
 import './index.css';
 
@@ -56,6 +57,10 @@ function App() {
           <Route 
             path="/events/:id" 
             element={isAuth ? <EventDetails /> : <Navigate to="/login" />} 
+          />
+          <Route 
+            path="/events/:id/editions/:editionId" 
+            element={isAuth ? <EditionDetails /> : <Navigate to="/login" />} 
           />
 
           {/* Domyślne przekierowanie */}

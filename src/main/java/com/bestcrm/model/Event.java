@@ -21,7 +21,7 @@ public class Event {
     private Long id;
     private String name;
 
-    @Relationship(type = "HAS_EDITION")
+    @Relationship(type = "HAS_EDITION", cascadeUpdates = true)
     private List<EventEdition> editions = new ArrayList<>();
 
     @Relationship(type = "PARTNER_OF", direction = Relationship.Direction.INCOMING)

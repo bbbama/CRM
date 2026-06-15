@@ -58,6 +58,22 @@ export const editionService = {
     create: (eventId, edition) => api.post(`/events/${eventId}/editions`, edition),
     update: (eventId, id, edition) => api.put(`/events/${eventId}/editions/${id}`, edition),
     delete: (eventId, id) => api.delete(`/events/${eventId}/editions/${id}`),
+    getAssignments: (eventId, editionId) =>
+        api.get(`/events/${eventId}/editions/${editionId}/assignments`),
+    addAssignment: (eventId, editionId, memberId) =>
+        api.post(`/events/${eventId}/editions/${editionId}/assignments`, { memberId }),
+    removeAssignment: (eventId, editionId, assignmentId) =>
+        api.delete(`/events/${eventId}/editions/${editionId}/assignments/${assignmentId}`),
+    addPartnerToAssignment: (eventId, editionId, assignmentId, partnerId) =>
+        api.post(`/events/${eventId}/editions/${editionId}/assignments/${assignmentId}/partners`, { partnerId }),
+    removePartnerFromAssignment: (eventId, editionId, assignmentId, partnerId) =>
+        api.delete(`/events/${eventId}/editions/${editionId}/assignments/${assignmentId}/partners/${partnerId}`),
+    updatePartnerStatus: (eventId, editionId, assignmentId, partnerId, status) =>
+        api.put(`/events/${eventId}/editions/${editionId}/assignments/${assignmentId}/partners/${partnerId}/status`, { status }),
+    getInteractions: (eventId, editionId, assignmentId, partnerId) =>
+        api.get(`/events/${eventId}/editions/${editionId}/assignments/${assignmentId}/partners/${partnerId}/interactions`),
+    addInteraction: (eventId, editionId, assignmentId, partnerId, type, note) =>
+        api.post(`/events/${eventId}/editions/${editionId}/assignments/${assignmentId}/partners/${partnerId}/interactions`, { type, note }),
 };
 
 export const interactionService = {
