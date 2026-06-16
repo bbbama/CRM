@@ -3,8 +3,6 @@ package com.bestcrm.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.RelationshipProperties;
 import org.springframework.data.neo4j.core.schema.TargetNode;
 
@@ -12,11 +10,7 @@ import org.springframework.data.neo4j.core.schema.TargetNode;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AssignedPartner {
-    @Id
-    @GeneratedValue
-    private Long id;
-
+public class AssignedPartner extends BaseEntity {
     @TargetNode
     private Partner partner;
 

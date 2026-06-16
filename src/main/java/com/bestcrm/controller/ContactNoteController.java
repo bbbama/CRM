@@ -1,11 +1,12 @@
 package com.bestcrm.controller;
 
+import com.bestcrm.annotation.AdminOnly;
+import com.bestcrm.annotation.ReadAccess;
 import com.bestcrm.model.ContactNote;
 import com.bestcrm.service.ContactNoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +21,13 @@ public class ContactNoteController {
     private final ContactNoteService contactNoteService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<List<ContactNote>> getNotes(@PathVariable Long contactId) {
         return ResponseEntity.ok(contactNoteService.getNotesByContact(contactId));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<ContactNote> addNote(@PathVariable Long contactId,
                                                 @RequestBody Map<String, String> body,
                                                 Authentication authentication) {
@@ -39,7 +40,7 @@ public class ContactNoteController {
     }
 
     @DeleteMapping("/{noteId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @AdminOnly
     public ResponseEntity<Void> deleteNote(@PathVariable Long contactId, @PathVariable Long noteId) {
         if (contactNoteService.deleteNote(contactId, noteId)) {
             return ResponseEntity.noContent().build();

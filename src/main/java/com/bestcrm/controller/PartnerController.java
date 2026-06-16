@@ -1,11 +1,13 @@
 package com.bestcrm.controller;
 
+import com.bestcrm.annotation.AdminOnly;
+import com.bestcrm.annotation.MemberOrAdmin;
+import com.bestcrm.annotation.ReadAccess;
 import com.bestcrm.model.Partner;
 import com.bestcrm.service.PartnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +20,13 @@ public class PartnerController {
     private final PartnerService partnerService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<List<Partner>> getAll() {
         return ResponseEntity.ok(partnerService.getAllPartners());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<Partner> getById(@PathVariable Long id) {
         return partnerService.getPartnerById(id)
                 .map(ResponseEntity::ok)
@@ -32,14 +34,14 @@ public class PartnerController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER')")
+    @MemberOrAdmin
     public ResponseEntity<Partner> create(@RequestBody Partner partner) {
         Partner savedPartner = partnerService.savePartner(partner);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPartner);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @AdminOnly
     public ResponseEntity<Partner> update(@PathVariable Long id, @RequestBody Partner partner) {
         return partnerService.getPartnerById(id)
                 .map(existing -> {
@@ -53,7 +55,7 @@ public class PartnerController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @AdminOnly
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (partnerService.deletePartner(id)) {
             return ResponseEntity.noContent().build();
@@ -62,13 +64,13 @@ public class PartnerController {
     }
 
     @GetMapping("/search")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<List<Partner>> search(@RequestParam String name) {
         return ResponseEntity.ok(partnerService.searchPartnersByName(name));
     }
 
     @GetMapping("/industry/{industry}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<List<Partner>> getByIndustry(@PathVariable String industry) {
         return ResponseEntity.ok(partnerService.getPartnersByIndustry(industry));
     }

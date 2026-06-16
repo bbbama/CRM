@@ -11,4 +11,5 @@ export { default as CardGrid } from './CardGrid';
 export { default as Button } from './Button';
 export { default as BackLink } from './BackLink';
 export { default as PageLayout } from './PageLayout';
+export { default as FormField } from './FormField';
 export { confirmAction } from './ConfirmDialog';

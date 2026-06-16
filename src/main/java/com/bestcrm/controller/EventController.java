@@ -1,11 +1,12 @@
 package com.bestcrm.controller;
 
+import com.bestcrm.annotation.AdminOnly;
+import com.bestcrm.annotation.ReadAccess;
 import com.bestcrm.model.Event;
 import com.bestcrm.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +19,13 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<List<Event>> getAll() {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'MEMBER', 'GUEST')")
+    @ReadAccess
     public ResponseEntity<Event> getById(@PathVariable Long id) {
         return eventService.getEventById(id)
                 .map(ResponseEntity::ok)
@@ -32,13 +33,13 @@ public class EventController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @AdminOnly
     public ResponseEntity<Event> create(@RequestBody Event event) {
         return ResponseEntity.status(HttpStatus.CREATED).body(eventService.saveEvent(event));
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @AdminOnly
     public ResponseEntity<Event> update(@PathVariable Long id, @RequestBody Event event) {
         return eventService.getEventById(id)
                 .map(existing -> {
@@ -49,7 +50,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @AdminOnly
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (eventService.deleteEvent(id)) {
             return ResponseEntity.noContent().build();

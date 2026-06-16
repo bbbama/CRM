@@ -3,8 +3,6 @@ package com.bestcrm.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 
@@ -14,11 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Interaction {
-    @Id
-    @GeneratedValue
-    private Long id;
-    
+public class Interaction extends BaseEntity {
     private InteractionType type;
     private LocalDateTime date;
     private String note;
