@@ -42,7 +42,3 @@ Baza grafowa naturalnie odzwierciedla tego typu sieć zależności - dane przech
 ### Użytkownicy i role
 * Każdy członek posiada własne konto w systemie.
 * Zdefiniowane role dostępu: **Admin** (pełne uprawnienia), **Członek** (dodawanie i edycja danych), **Gość** (wyłącznie podgląd).
-
-### Dashboard
-* Szybki przegląd ostatniej aktywności w systemie.
-* Lista firm, z którymi nikt nie kontaktował się od dłuższego czasu.
