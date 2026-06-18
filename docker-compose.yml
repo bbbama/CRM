@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # 1. Baza danych Neo4j
+  database:
+    image: neo4j:latest
+    container_name: crm-neo4j
+    ports:
+      - "7474:7474" # Panel przeglądarkowy
+      - "7687:7687" # Protokół Bolt
+    environment:
+      - NEO4J_AUTH=${DB_USERNAME:-neo4j}/${DB_PASSWORD:-password123}
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # 2. Backend (Spring Boot)
+  backend:
+    build: .
+    container_name: crm-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_NEO4J_URI=bolt://database:7687
+      - SPRING_NEO4J_AUTHENTICATION_USERNAME=${DB_USERNAME:-neo4j}
+      - NEO4J_PASSWORD=${DB_PASSWORD:-password123}
+      - JWT_SECRET_KEY=${JWT_SECRET:-moj-bardzo-tajny-klucz-ktory-ma-przynajmniej-32-znaki-dlugosci}
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # 3. Frontend (React)
+  frontend:
+    build: ./frontend
+    container_name: crm-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  neo4j_data:

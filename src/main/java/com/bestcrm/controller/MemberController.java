@@ -13,17 +13,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/members")
 @RequiredArgsConstructor
-@AdminOnly
 public class MemberController {
 
     private final MemberService memberService;
 
     @GetMapping
+    @com.bestcrm.annotation.MemberOrAdmin
     public ResponseEntity<List<Member>> getAll() {
         return ResponseEntity.ok(memberService.getAllMembers());
     }
 
     @GetMapping("/{id}")
+    @com.bestcrm.annotation.MemberOrAdmin
     public ResponseEntity<Member> getById(@PathVariable Long id) {
         return memberService.getMemberById(id)
                 .map(ResponseEntity::ok)
@@ -31,12 +32,15 @@ public class MemberController {
     }
 
     @PostMapping
+    @com.bestcrm.annotation.AdminOnly
     public ResponseEntity<Member> create(@RequestBody Member member) {
         return ResponseEntity.status(HttpStatus.CREATED).body(memberService.saveMember(member));
     }
 
     @PutMapping("/{id}")
+    @com.bestcrm.annotation.AdminOnly
     public ResponseEntity<Member> update(@PathVariable Long id, @RequestBody Member member) {
+        // ... (existing logic)
         return memberService.getMemberById(id)
                 .map(existing -> {
                     existing.setFirstName(member.getFirstName());
@@ -52,6 +56,7 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
+    @com.bestcrm.annotation.AdminOnly
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (memberService.deleteMember(id)) {
             return ResponseEntity.noContent().build();
